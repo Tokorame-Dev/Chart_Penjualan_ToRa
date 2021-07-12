@@ -13194,21 +13194,28 @@ const created_at = [
   "2021-06-21 14:29:21.222 UTC",
 ];
 
-const dates = created_at.map((UTCdate) => new Date(UTCdate).getDate());
-const hours = created_at.map((UTCdate) => new Date(UTCdate).getHours());
-
 const numOfDates = {};
 const numOfHours = {};
 
-dates.forEach((date) => {
+created_at.forEach((UTCdate) => {
+  const UTCArgs = UTCdate.split(/[- :.]/);
+  const decidedLength = UTCArgs.slice(0, UTCArgs.length - 1).map((num) =>
+    parseInt(num, 10)
+  );
+
+  const fromUTC = Date.UTC(...decidedLength);
+
+  let myDate = new Date(fromUTC);
+
+  let date = myDate.getDate();
+  let hour = myDate.getHours();
+
   if (numOfDates[date]) {
     numOfDates[date]++;
   } else {
     numOfDates[date] = 1;
   }
-});
 
-hours.forEach((hour) => {
   if (numOfHours[hour]) {
     numOfHours[hour]++;
   } else {
@@ -13216,8 +13223,12 @@ hours.forEach((hour) => {
   }
 });
 
-const mostDates = Object.entries(numOfDates).sort(([_A, valA], [_B, valB]) => valB - valA)[0][0]; 
-const mostHours = Object.entries(numOfHours).sort(([_A, valA], [_B, valB]) => valB - valA)[0][0]; 
+const mostDates = Object.entries(numOfDates).sort(
+  ([_A, valA], [_B, valB]) => valB - valA
+)[0][0];
+const mostHours = Object.entries(numOfHours).sort(
+  ([_A, valA], [_B, valB]) => valB - valA
+)[0][0];
 
 const labels = Object.keys(numOfDates);
 
@@ -13239,7 +13250,7 @@ const config = {
   options: {},
 };
 
-var myChart = new Chart(document.getElementById("myChart_Date"), config);
+const myChart_Date = new Chart(document.getElementById("myChart_Date"), config);
 
 const labels_hours = Object.keys(numOfHours);
 
@@ -13261,4 +13272,4 @@ const config_hour = {
   options: {},
 };
 
-var myChart = new Chart(document.getElementById("myChart_Hour"), config_hour);
+const myChart_Hour = new Chart(document.getElementById("myChart_Hour"), config_hour);

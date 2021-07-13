@@ -13237,8 +13237,8 @@ const data = {
   datasets: [
     {
       label: "Penjualan ToRa by Date",
-      backgroundColor: "rgb(255, 99, 132)",
-      borderColor: "rgb(255, 99, 132)",
+      backgroundColor: "#0084ff",
+      borderColor: "#0084ff",
       data: Object.values(numOfDates),
     },
   ],

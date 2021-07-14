@@ -13196,6 +13196,7 @@ const created_at = [
 
 const numOfDates = {};
 const numOfHours = {};
+const numOfDays = {};
 
 created_at.forEach((UTCdate) => {
   const UTCArgs = UTCdate.split(/[- :.]/);
@@ -13209,6 +13210,7 @@ created_at.forEach((UTCdate) => {
 
   let date = myDate.getDate();
   let hour = myDate.getHours();
+  let day = myDate.getDay();
 
   if (numOfDates[date]) {
     numOfDates[date]++;
@@ -13221,7 +13223,15 @@ created_at.forEach((UTCdate) => {
   } else {
     numOfHours[hour] = 1;
   }
+
+  if (numOfDays[day]) {
+    numOfDays[day]++;
+  } else {
+    numOfDays[day] = 1;
+  }
 });
+
+console.log(numOfDays);
 
 const mostDates = Object.entries(numOfDates).sort(
   ([_A, valA], [_B, valB]) => valB - valA
@@ -13273,3 +13283,25 @@ const config_hour = {
 };
 
 const myChart_Hour = new Chart(document.getElementById("myChart_Hour"), config_hour);
+
+const labels_days = ['Ahad', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
+
+const data_day = {
+  labels: labels_days,
+  datasets: [
+    {
+      label: "Penjualan ToRa by Day",
+      backgroundColor: "rgb(31, 173, 62)",
+      borderColor: "rgb(31, 173, 62)",
+      data: Object.values(numOfDays),
+    },
+  ],
+};
+
+const config_day = {
+  type: "line",
+  data: data_day,
+  options: {},
+};
+
+const myChart_day = new Chart(document.getElementById("myChart_Day"), config_day);

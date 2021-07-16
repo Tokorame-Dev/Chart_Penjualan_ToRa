@@ -14599,40 +14599,48 @@ const sortedByTotal = Object.entries(objSellers).sort(
 //000.000.000.000.1
 //0000000001
 
-function addSeparator(num) {
-  const splitted = num.toString().split(".");
-  const integer = splitted[0];
-  const afterPoint = splitted[1];
-  const numArr = integer.split("").reverse();
+// function addSeparator(num) {
+//   const splitted = num.toString().split(".");
+//   const integer = splitted[0];
+//   const afterPoint = splitted[1];
+//   const numArr = integer.split("").reverse();
 
-  if (numArr.length > 3) {
-    let i = 3;
-    for (i; i < numArr.length; i += 4) {
-      numArr.splice(i, 0, ",");
-    }
-  }
+//   if (numArr.length > 3) {
+//     let i = 3;
+//     for (i; i < numArr.length; i += 4) {
+//       numArr.splice(i, 0, ",");
+//     }
+//   }
 
-  return `${numArr.reverse().join("")}` + (afterPoint ? `.${afterPoint}` : "");
-}
+//   return `${numArr.reverse().join("")}` + (afterPoint ? `.${afterPoint}` : "");
+// }
 
 const dataSet = Object.keys(objSellers).map((id) => {
   const { total_tagihan, repetisi, average } = objSellers[id];
 
-  const totalRP = addSeparator(total_tagihan);
-  const averageRP = addSeparator(average);
-//   console.log(averageRP);
+  // const totalRP = addSeparator(total_tagihan);
+  // const averageRP = addSeparator(average);
+  //   console.log(averageRP);
 
-  return {ID: id, Total: totalRP, Repetisi: repetisi, Avg: averageRP };
+  return { ID: id, Total: total_tagihan, Repetisi: repetisi, Avg: average };
 });
 
 $(document).ready(function () {
   $("#example").DataTable({
     data: dataSet,
     columns: [
-      { data: "ID" },
-      { data: "Total" },
-      { data: "Repetisi" },
-      { data: "Avg" },
+      { data: "ID", title: "ID" },
+      {
+        data: "Total",
+        title: "Total Tagihan",
+        render: $.fn.dataTable.render.number( '.', ',', 2, 'Rp' ),
+      },
+      { data: "Repetisi", title: "Repetisi" },
+      {
+        data: "Avg",
+        title: "Average",
+        render: $.fn.dataTable.render.number( '.', ',', 2, 'Rp' ),
+      },
     ],
   });
 });
